@@ -2,11 +2,25 @@
 let ball;
 let paddles;
 let bricks;
+let stars;
+let bottom;
 
 function setup(){
 	// runs on page load
 	let canvas = createCanvas(300,600);
 	canvas.parent(document.getElementById('canvas-holder'));
+
+	// star field
+
+	stars = new Group();
+	for (let i=0; i<20; i++){
+		let randSize = random(2,6);
+		let star = createSprite(random(width), random(height), randSize, randSize);
+		star.setVelocity(0, 2);
+		star.shapeColor = color(random(200,255), random(200,255), random(200,255));
+
+		stars.add(star);
+	}
 
 	// Create ball
 	ball = createSprite(width/2, height/1.5, 15, 15); // posx, posy, width, height
@@ -36,10 +50,13 @@ function setup(){
 		bricks.add(brick);
 	}
 
+	// bottom of screen
+	bottom = createSprite(width/2, height, width, 5);
+	bottom.immovable = true;
+	
 
 	paddles.add(player);
 	paddles.add(enemy);
-
 
 
 }
@@ -53,8 +70,14 @@ function draw(){
 	updateFromMouse();
 	ballWallBounce();
 
+	
+
 	ball.bounce(paddles);
 	ball.bounce(bricks, breakBrick);
+
+	stars.collide(bottom, function(star, bottom){
+		star.position.y = 0;
+	});
 
 	drawSprites();
 }
