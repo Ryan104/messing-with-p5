@@ -107,7 +107,7 @@ function breakBrick(theBall, theBrick){
 	theBrick.health -= 1;
 	theBrick.shapeColor = color(random(255),random(255),random(255));
 
-	console.log(theBrick.health);
+	
 	if (theBrick.health <= 0){
 		theBrick.remove();
 	}
